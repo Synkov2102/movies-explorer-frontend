@@ -1,0 +1,170 @@
+.student {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1280px;
+  box-sizing: border-box;
+  padding: 0 70px;
+  margin: 0 auto;
+}
+
+.student__title {
+  margin: 110px 0 23px 0;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  /* identical to box height */
+
+  letter-spacing: -0.04em;
+
+  color: #000000;
+}
+
+.student__content {
+  padding-top: 66px;
+  border-top: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.student__profile-info {
+  width: 52.63%;
+}
+
+.student__name {
+  margin: 0 0 18px 0;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.16;
+
+  letter-spacing: -0.04em;
+
+  color: #000000;
+}
+
+.student__about {
+  margin: 0 0 26px 0;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.11;
+
+  color: #000000;
+}
+
+.student__description {
+  margin: 0 0 99px 0;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.57;
+
+  color: #000000;
+}
+
+.student__photo {
+  width: 270px;
+  height: 327px;
+}
+
+.student__links {
+  width: 132px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.student__link {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+
+  text-decoration: none;
+
+  color: #000000;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .student {
+    padding: 0 50px;
+  }
+
+  .student__title {
+    margin: 90px 0 23px 0;
+  }
+
+  .student__name {
+    font-size: 40px;
+    line-height: 1;
+  }
+
+  .student__about {
+    margin: 0 0 20px 0;
+
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .student__description {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .student__profile-info {
+    width: 54.49%;
+  }
+
+  .student__photo {
+    width: 255px;
+    height: 307px;
+  }
+}
+
+@media (max-width: 700px) {
+  .student {
+    padding: 0 14px;
+  }
+
+  .student__title {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 70px 0 23px 0;
+  }
+
+  .student__content {
+    padding-top: 60px;
+  }
+
+  .student__profile-info {
+    font-size: 30px;
+    line-height: 36px;
+    margin-top: 40px;
+    width: 100%;
+  }
+
+  .student__description {
+    margin: 0 0 60px 0;
+  }
+
+  .student__photo {
+    width: 292px;
+    height: 352px;
+  }
+
+  .student__content {
+    flex-direction: column-reverse;
+  }
+}
