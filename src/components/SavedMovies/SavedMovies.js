@@ -16,26 +16,28 @@ function SavedMovies() {
   return (
     <>
       <Header setIsMenuOpened={setIsMenuOpened} />
-      <SearchForm />
-      <MoviesCardList>
-        <MoviesCard
-          image={wordsPath}
-          title={"33 слова о дизайне"}
-          timing={"1ч 47м"}
-        />
-        <MoviesCard
-          image={hundredYearsPath}
-          title={"Киноальманах «100 лет дизайна»"}
-          timing={"1ч 3м"}
-        />
-        <MoviesCard
-          image={banksyPath}
-          title={"В погоне за Бенкси"}
-          timing={"1ч 42м"}
-        />
-      </MoviesCardList>
-      <Footer />
       <Menu isOpened={isMenuOpened} setIsOpened={setIsMenuOpened} />
+      <main>
+        <SearchForm />
+        <MoviesCardList>
+          <MoviesCard
+            image={wordsPath}
+            title={"33 слова о дизайне"}
+            timing={"1ч 47м"}
+          />
+          <MoviesCard
+            image={hundredYearsPath}
+            title={"Киноальманах «100 лет дизайна»"}
+            timing={"1ч 3м"}
+          />
+          <MoviesCard
+            image={banksyPath}
+            title={"В погоне за Бенкси"}
+            timing={"1ч 42м"}
+          />
+        </MoviesCardList>
+      </main>
+      <Footer />
     </>
   );
 }

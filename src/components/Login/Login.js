@@ -14,8 +14,8 @@ function Login({ email, password, setEmail, setPassword, onSubmit }) {
 
   return (
     <>
-      <section className="login">
-        <img className="login__logo" src={logoPath} />
+      <main className="login">
+        <img className="login__logo" src={logoPath} alt="Логотип Movies-Explorer"/>
         <h2 className="login__title">Рады видеть!</h2>
         <form onSubmit={onSubmit}>
           <fieldset className="login__inputs">
@@ -52,7 +52,7 @@ function Login({ email, password, setEmail, setPassword, onSubmit }) {
             </Link>
           </div>
         </form>
-      </section>
+      </main>
     </>
   );
 }

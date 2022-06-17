@@ -8,7 +8,7 @@ function Menu({isOpened, setIsOpened}) {
     <header className={ isOpened ? 'menu menu_opened' : 'menu'}>
       <nav className={ isOpened ? 'menu-navigation menu-navigation_opened' : 'menu'}>
         <button className="menu-navigation__exit" onClick={()=>setIsOpened(false)}>
-          <img className="menu-navigation__exit-icon" src={exitPath} />
+          <img className="menu-navigation__exit-icon" src={exitPath} alt="Изображение кнопки выйти"/>
         </button>
         <Link
           to="./"

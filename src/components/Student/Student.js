@@ -17,11 +17,11 @@ function Student() {
             ещё увлекаюсь фотографией. Недавно начал кодить.
           </p>
           <div className="student__links">
-            <a className="student__link" href="https://ru-ru.facebook.com/">Facebook</a>
-            <a className="student__link" href="https://github.com/Synkov2102">Github</a>
+            <a target="_blank" className="student__link" href="https://ru-ru.facebook.com/">Facebook</a>
+            <a target="_blank" className="student__link" href="https://github.com/Synkov2102">Github</a>
           </div>
         </div>
-        <img src={portretPath} className="student__photo" />
+        <img src={portretPath} className="student__photo"  alt="Фотография студента"/>
       </div>
       <Portfolio />
     </section>

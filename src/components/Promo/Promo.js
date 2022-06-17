@@ -5,7 +5,7 @@ function Promo() {
   return (
     <section className="promo">
       <div className="promo__container">
-        <img className="promo__logo" src={landingLogoPath} />
+        <img className="promo__logo" src={landingLogoPath} alt="Логотип Movies-Explorer" />
         <h1 className="promo__title">
           Учебный проект студента факультета Веб-разработки.
         </h1>

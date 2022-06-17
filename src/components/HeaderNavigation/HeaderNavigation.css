@@ -1,5 +1,6 @@
 .header-navigation {
   margin: auto 0;
+  z-index: 2;
 }
 
 .header-navigation__link {
@@ -45,6 +46,8 @@
   height: 32px;
   background: #000000;
   border-radius: 3px;
+
+  border: none;
 
   font-family: "Inter";
   font-style: normal;

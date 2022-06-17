@@ -14,8 +14,8 @@ function Register({ email, password, name, setEmail, setPassword, onSubmit }) {
 
   return (
     <>
-      <section className="login">
-        <img className="login__logo" src={logoPath} />
+      <main className="login">
+        <img className="login__logo" src={logoPath} alt="Логотип Movies-Explorer"/>
         <h2 className="login__title">Добро пожаловать!</h2>
         <form onSubmit={onSubmit}>
           <fieldset className="login__inputs login__inputs_theme_reg">
@@ -64,7 +64,7 @@ function Register({ email, password, name, setEmail, setPassword, onSubmit }) {
             </Link>
           </div>
         </form>
-      </section>
+      </main>
     </>
   );
 }

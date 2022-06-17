@@ -9,7 +9,7 @@ function Header({setIsMenuOpened}) {
   return (
     <header className="header">
       <Link to="/" className="header__link-to-main">
-        <img className="header__logo" src={logoPath} />
+        <img className="header__logo" src={logoPath} alt="Логотип Movies-Explorer" />
       </Link>
       <HeaderNavigation setIsMenuOpened={setIsMenuOpened}/>
     </header>

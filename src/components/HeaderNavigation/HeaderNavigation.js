@@ -29,7 +29,7 @@ function HeaderNavigation({ setIsMenuOpened }) {
             className="header-navigation__burger"
             onClick={() => setIsMenuOpened(true)}
           >
-            <img className="header-navigation__burger-icon" src={burgerPath} />
+            <img className="header-navigation__burger-icon" src={burgerPath} alt="Изображение кнопки меню"/>
           </button>
         </nav>
       );

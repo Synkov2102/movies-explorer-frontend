@@ -26,7 +26,7 @@ function MoviesCard({title, timing, image}) {
 
   return (
     <div className="movies-card">
-      <img className="movies-card__img" src={image} />
+      <img className="movies-card__img" src={image} alt="Изображение на карточке"/>
       <div className="movies-card__info-wrapper">
         <h3 className="movies-card__title">{title}</h3>
         <Button isSaved = {isSaved}/>
