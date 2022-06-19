@@ -1,0 +1,35 @@
+.nav-tab {
+  background-color: black;
+  display: flex;
+}
+
+.nav-tab__links {
+  display: flex;
+  margin: 24px auto;
+}
+
+.nav-tab__link {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.23;
+
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+
+  cursor: pointer;
+
+  color: #ffffff;
+}
+
+.nav-tab__link:nth-child(n + 2) {
+  margin-left: 40px;
+}
+
+@media (max-width: 400px) {
+  .nav-tab__link:nth-child(n + 2) {
+    margin-left: 24px;
+  }
+}

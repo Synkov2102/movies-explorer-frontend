@@ -1,0 +1,104 @@
+.movies-card {
+  background: #fdfdfd;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.movies-card__img {
+  width: 100%;
+  padding: 0;
+  display: block;
+}
+
+.movies-card__info-wrapper {
+  margin: 9px 16px 10px 16px;
+  padding: 0;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.movies-card__title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.23;
+
+  padding: 0;
+  margin: auto 0;
+}
+
+.movies-card__like-button {
+  border: 0;
+  background-color: transparent;
+
+  padding: 0;
+  margin: 0;
+
+  width: 30px;
+  height: 30px;
+
+  transition: background 0.5s linear;
+
+  background-image: url("../../images/like.svg");
+  background-position: center;
+
+  cursor: pointer;
+}
+
+.movies-card__delete-button {
+    border: 0;
+    background-color: transparent;
+  
+    padding: 0;
+    margin: 0;
+  
+    width: 30px;
+    height: 30px;
+  
+    transition: background-image 0.5s linear;
+  
+    background-position: center;
+  
+    cursor: pointer;
+
+    background-image: url("../../images/delete.svg");
+    opacity: 0;
+
+    transition: opacity .5s;
+
+}
+
+.movies-card:hover .movies-card__delete-button{
+    opacity: 1;
+}
+
+.movies-card__like-button_active {
+  background-image: url("../../images/like-active.svg");
+}
+
+.movies-card__timing {
+  margin: 0 0 16px 16px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  display: flex;
+  align-items: center;
+
+  color: #a0a0a0;
+}
+
+@media (max-width: 768px) {
+  .movies-card__info-wrapper {
+    margin: 8px 14px 7px 14px;
+  }
+
+  .movies-card__timing {
+    margin: 0 0 14px 14px;
+  }
+}
