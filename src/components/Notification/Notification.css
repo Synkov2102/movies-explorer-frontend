@@ -1,0 +1,43 @@
+.notification {
+  display: flex;
+  position: fixed;
+  opacity: 0;
+  padding: 10px;
+  top: 5px;
+  right: 5px;
+  z-index: 5;
+  width: 0;
+  height: 0;
+  background-color: white;
+  border-radius: 6px;
+  flex-direction: column;
+  width: fit-content;
+  height: fit-content;
+  border: 1px solid lightgray;
+
+  transition: opacity 2s;
+}
+
+.notification_opened {
+  opacity: 1;
+  
+}
+
+.notification__exit {
+  padding: 0;
+  width: fit-content;
+  background-color: transparent;
+  border: none;
+  align-self: end;
+}
+
+.notification__message {
+  max-width: 120px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.29;
+  text-decoration: none;
+  color: black;
+}
