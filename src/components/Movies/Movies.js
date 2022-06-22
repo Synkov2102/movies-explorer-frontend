@@ -43,7 +43,9 @@ function Movies({
 
   if (movies != undefined) {
     if (movies.length === 0) {
-      movies = JSON.parse(localStorage.getItem("findedFilms"));
+      if (JSON.parse(localStorage.getItem("findedFilms"))) {
+        movies = JSON.parse(localStorage.getItem("findedFilms"));
+      }
     }
 
     if (movies.length <= sizeCoefficient + sizeCoefficient * additionCounter) {
