@@ -10,10 +10,13 @@ import { useState } from "react";
 function SavedMovies({ handleDeleteMovie, onSearch, savedMovies }) {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
-  if (savedMovies != undefined) {
-    if (savedMovies.length === 0) {
-      savedMovies = JSON.parse(localStorage.getItem("savedFilms"));
-    }
+
+  if (savedMovies === undefined) {
+    savedMovies = JSON.parse(localStorage.getItem("savedFilms"));
+  } 
+
+  if (JSON.parse(localStorage.getItem("savedFilms")).length === 0) {
+    savedMovies = undefined
   }
 
   return (
@@ -21,8 +24,8 @@ function SavedMovies({ handleDeleteMovie, onSearch, savedMovies }) {
       <Header setIsMenuOpened={setIsMenuOpened} />
       <Menu isOpened={isMenuOpened} setIsOpened={setIsMenuOpened} />
       <main>
-        <SearchForm onSearch={onSearch}/>
-        <MoviesCardList movies={savedMovies} handleMovie={handleDeleteMovie}/>
+        <SearchForm onSearch={onSearch} />
+        <MoviesCardList movies={savedMovies} handleMovie={handleDeleteMovie} />
       </main>
       <Footer />
     </>

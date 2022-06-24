@@ -50,7 +50,7 @@ function MoviesCardList({
             или сервер недоступен. Подождите немного и попробуйте ещё раз
           </p>
         ) : isUndefined(moviesData) ? (
-          <p className="movies-list__error">Ничего не найдено</p>
+          <></>
         ) : moviesData.length === 0 ? (
           <p className="movies-list__error">Ничего не найдено</p>
         ) : (

@@ -24,7 +24,7 @@ function Movies({
   let isButtonActive = true;
 
   function handleResize() {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 1005) {
       setSizeCoefficient(12);
     } else if (window.innerWidth > 710) {
       setSizeCoefficient(8);
@@ -41,13 +41,21 @@ function Movies({
     window.addEventListener("resize", handleResize);
   }, []);
 
-  if (movies != undefined) {
+  if (movies === undefined) {
+    if (JSON.parse(localStorage.getItem("findedFilms"))) {
+      movies = JSON.parse(localStorage.getItem("findedFilms"));
+    } else {
+      isButtonActive = false;
+    }
+  } else {
     if (movies.length === 0) {
       if (JSON.parse(localStorage.getItem("findedFilms"))) {
         movies = JSON.parse(localStorage.getItem("findedFilms"));
       }
     }
+  }
 
+  if (movies != undefined) {
     if (movies.length <= sizeCoefficient + sizeCoefficient * additionCounter) {
       isButtonActive = false;
     }
@@ -55,8 +63,6 @@ function Movies({
     if (movies.length > sizeCoefficient) {
       movies.length = sizeCoefficient + sizeCoefficient * additionCounter;
     }
-  } else {
-    isButtonActive = false;
   }
 
   return (

@@ -21,15 +21,14 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
   const history = useHistory();
-  const location = useLocation();
 
   const [currentUser, setCurrentUser] = React.useState({});
-  const [moviesData, setMoviesData] = React.useState([]);
-  const [savedMoviesData, setSavedMoviesData] = React.useState([]);
+  const [moviesData, setMoviesData] = React.useState();
+  const [savedMoviesData, setSavedMoviesData] = React.useState();
   const [loggedIn, setLoggedIn] = React.useState(true);
   const [isLoadingMovies, setIsLoadingMovies] = React.useState(false);
   const [isErrorMovies, setIsErrorMovies] = React.useState(false);
-  const [err, setErr] = React.useState('');
+  const [notification, setNotification] = React.useState("");
 
   React.useEffect(() => {
     if (loggedIn) {
@@ -44,7 +43,7 @@ function App() {
     }
     getSavedfilms();
     tokenCheck();
-  }, [location]);
+  }, []);
 
   function tokenCheck() {
     // если у пользователя есть токен в localStorage,
@@ -71,7 +70,6 @@ function App() {
     auth
       .getLogIn(email, password)
       .then((data) => {
-        console.log(data);
         localStorage.setItem("jwt", data.token);
         const jwt = localStorage.getItem("jwt");
         auth.checkToken(jwt).then((res) => {
@@ -81,8 +79,8 @@ function App() {
           }
         });
       })
-      .catch((err) => {
-        setErr(err)
+      .catch(() => {
+        setNotification('При входе что-то пошло не так')
       });
   }
 
@@ -90,10 +88,10 @@ function App() {
     auth
       .getRegister(email, password, name)
       .then(() => {
-        history.push("/signin");
+        handleLogin(email, password);
       })
       .catch((err) => {
-        setErr(err.message)
+        setNotification('При регистрации что-то пошло не так')
       });
   }
 
@@ -102,9 +100,10 @@ function App() {
       .patchProfileInfo(name, email)
       .then((data) => {
         setCurrentUser(data.user);
+        setNotification('Данные пользователя успешно изменены')
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setNotification('Не удалось изменить данные пользователя')
       });
   }
 
@@ -127,7 +126,7 @@ function App() {
           localStorage.setItem("keyWord", key);
           localStorage.setItem("isShortFilm", JSON.stringify(isShortFilm));
         } else {
-          setMoviesData(undefined);
+          setMoviesData([]);
         }
       })
       .catch(() => {
@@ -200,16 +199,14 @@ function App() {
         .then(() => {
           getSavedfilms();
         })
-        .catch((err) => {
-        });
+        .catch(() => {});
     } else {
       api
         .deleteMovie(movie.id)
         .then(() => {
           getSavedfilms();
         })
-        .catch((err) => {
-        });
+        .catch(() => {});
     }
   }
 
@@ -219,8 +216,7 @@ function App() {
       .then(() => {
         getSavedfilms();
       })
-      .catch((err) => {
-      });
+      .catch(() => {});
   }
 
   function filterMovies(arr, keyWord, isShortFilm) {
@@ -228,7 +224,8 @@ function App() {
       for (let key in item) {
         if (isShortFilm === item.duration <= 40) {
           if (typeof item[key] === "string") {
-            if (item[key].indexOf(keyWord) != -1) {
+            const searchItem = item[key].toUpperCase();
+            if (searchItem.indexOf(keyWord.toUpperCase()) != -1) {
               return item;
             }
           }
@@ -263,28 +260,38 @@ function App() {
         <ProtectedRoute
           path="/profile"
           loggedIn={loggedIn}
+          setLoggedIn={setLoggedIn}
           component={Profile}
           onUpdate={handleUpdateUser}
+          notification={notification}
+          setNotification={setNotification}
+        />
+
+        <ProtectedRoute
+          path="/signin"
+          loggedIn={!loggedIn}
+          component={Login}
+          onLogin={handleLogin}
+          notification={notification}
+          setNotification={setNotification}
+        />
+
+        <ProtectedRoute
+          path="/signup"
+          loggedIn={!loggedIn}
+          component={Register}
+          onRegister={handleRegister}
+          notification={notification}
+          setNotification={setNotification}
         />
 
         <Route exact path="/">
           <Main loggedIn={loggedIn} />
         </Route>
 
-        <Route path="/signin">
-          <Login onLogin={handleLogin} />
-          <Notification err={err} setErr={setErr}/>
-        </Route>
-
-        <Route path="/signup">
-          <Register onRegister={handleRegister} />
-          <Notification  err={err} setErr={setErr}/>
-        </Route>
-
         <Route path="">
           <NotFound />
         </Route>
-
       </Switch>
     </CurrentUserContext.Provider>
   );

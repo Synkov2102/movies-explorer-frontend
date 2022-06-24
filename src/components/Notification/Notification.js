@@ -1,14 +1,14 @@
 import "./Notification.css";
 import exitPath from "../../images/exit.svg";
 import React from "react";
-function Notification({ err, setErr }) {
+function Notification({ notification, setNotification }) {
   React.useEffect(() => {
-    setTimeout(()=>setErr(""), 4000);
-  }, [err]);
+    setTimeout(()=>setNotification(""), 4000);
+  }, [notification]);
 
   return (
-    <div className={err ? "notification notification_opened" : "notification"}>
-      <button className="notification__exit" onClick={() => setErr("")}>
+    <div className={notification ? "notification notification_opened" : "notification"}>
+      <button className="notification__exit" onClick={() => setNotification("")}>
         <img
           className="notification__exit-icon"
           src={exitPath}
@@ -17,7 +17,7 @@ function Notification({ err, setErr }) {
       </button>
 
       <h3 className="notification__message">
-        Что-то пошло не так, проверьте данные и попробуйте еще раз.
+        {notification}
       </h3>
     </div>
   );

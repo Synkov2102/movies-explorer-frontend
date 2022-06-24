@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import "./Register.css";
 import logoPath from "../../images/logo.svg";
 import { useForm } from "react-hook-form";
+import Notification from "../Notification/Notification";
 
-function Register({ onRegister }) {
+function Register({ onRegister, notification, setNotification }) {
   const {
     register,
     handleSubmit,
@@ -22,11 +23,13 @@ function Register({ onRegister }) {
   return (
     <>
       <main className="login">
-        <img
-          className="login__logo"
-          src={logoPath}
-          alt="Логотип Movies-Explorer"
-        />
+        <Link to="/">
+          <img
+            className="login__logo"
+            src={logoPath}
+            alt="Логотип Movies-Explorer"
+          />
+        </Link>
         <h2 className="login__title">Добро пожаловать!</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="login__inputs login__inputs_theme_reg">
@@ -53,8 +56,7 @@ function Register({ onRegister }) {
               {...register("email", {
                 required: "Почта должна быть заполнена",
                 pattern: {
-                  value:
-                    /^((([0-9A-Za-z]{1}[-0-9A-z.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}.){1,2}[-A-Za-z]{2,})$/u,
+                  value: /\b([a-z0-9._-]+@[a-z0-9.-]+\.[a-z]+)\b/i,
                   message: "Почта введена не верно",
                 },
               })}
@@ -75,7 +77,9 @@ function Register({ onRegister }) {
             />
             <span className="login__err">{errors?.password?.message}</span>
           </fieldset>
-          <button type="submit" disabled={!isValid} className="login__button">Зарегистрироваться</button>
+          <button type="submit" disabled={!isValid} className="login__button">
+            Зарегистрироваться
+          </button>
           <div className="login__reg-container">
             <p className="login__reg-question">Уже зарегистрированы?</p>
             <Link to="./signin" className="login__reg-link">
@@ -83,6 +87,7 @@ function Register({ onRegister }) {
             </Link>
           </div>
         </form>
+        <Notification notification={notification} setNotification={setNotification}/>
       </main>
     </>
   );
