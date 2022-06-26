@@ -2,99 +2,88 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
-import MoviesCard from "../MoviesCard/MoviesCard";
 import Menu from "../Menu/Menu";
 import "./Movies.css";
 
-import wordsPath from "../../images/33 words.png";
-import hundredYearsPath from "../../images/hundred-years.png";
-import banksyPath from "../../images/banksy.png";
 import { useState } from "react";
+import React from "react";
 
-function Movies() {
-  const screenWidth = window.screen.width;
+import { bigSizeTable, mediumSizeTable, smallSizeTable } from "../../constants/constants";
+
+function Movies({
+  onSearch,
+  noResult,
+  movies,
+  isLoadingMovies,
+  isErrorMovies,
+  handleMovieSave,
+}) {
+
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const keyWordLast = localStorage.getItem("keyWord");
+  const isShortFilmLast = JSON.parse(localStorage.getItem("isShortFilm"));
+
+  const [sizeCoefficient, setSizeCoefficient] = useState(12);
+  const [additionCounter, setAdditionCounter] = useState(0);
+  const [moviesArr, setMoviesArr] = useState([]);
+
+  let isButtonActive = true;
+
+  function handleResize() {
+    if (window.innerWidth > 1005) {
+      setSizeCoefficient(bigSizeTable);
+    } else if (window.innerWidth > 710) {
+      setSizeCoefficient(mediumSizeTable);
+    } else {
+      setSizeCoefficient(smallSizeTable);
+    }
+  }
+
+  function handleMoreClick() {
+    setAdditionCounter(additionCounter + 1);
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("resize", handleResize);
+  }, [window.innerWidth]);
+
+  React.useEffect(() => {
+    setMoviesArr(
+      movies.slice(0, sizeCoefficient + sizeCoefficient * additionCounter)
+    );
+  }, [sizeCoefficient, additionCounter, movies]);
+
+  if (movies.length === 0) {
+    if (JSON.parse(localStorage.getItem("findedFilms"))) {
+      movies = JSON.parse(localStorage.getItem("findedFilms"));
+    } else {
+      isButtonActive = false;
+    }
+  }
+
+  if (moviesArr.length === movies.length || noResult === true) {
+    isButtonActive = false;
+  }
+
   return (
     <>
       <Header setIsMenuOpened={setIsMenuOpened} />
       <Menu isOpened={isMenuOpened} setIsOpened={setIsMenuOpened} />
       <main className="main">
-        <SearchForm />
-        <MoviesCardList>
-          <MoviesCard
-            image={wordsPath}
-            title={"33 слова о дизайне"}
-            timing={"1ч 47м"}
-          />
-          <MoviesCard
-            image={hundredYearsPath}
-            title={"Киноальманах «100 лет дизайна»"}
-            timing={"1ч 3м"}
-          />
-          <MoviesCard
-            image={banksyPath}
-            title={"В погоне за Бенкси"}
-            timing={"1ч 42м"}
-          />
-          <MoviesCard
-            image={wordsPath}
-            title={"33 слова о дизайне"}
-            timing={"1ч 47м"}
-          />
-          <MoviesCard
-            image={banksyPath}
-            title={"В погоне за Бенкси"}
-            timing={"1ч 42м"}
-          />
-
-          {screenWidth > 400 ? (
-            <>
-              <MoviesCard
-                image={wordsPath}
-                title={"33 слова о дизайне"}
-                timing={"1ч 47м"}
-              />
-              <MoviesCard
-                image={hundredYearsPath}
-                title={"Киноальманах «100 лет дизайна»"}
-                timing={"1ч 3м"}
-              />
-              <MoviesCard
-                image={banksyPath}
-                title={"В погоне за Бенкси"}
-                timing={"1ч 42м"}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-          {screenWidth > 768 ? (
-            <>
-              <MoviesCard
-                image={banksyPath}
-                title={"В погоне за Бенкси"}
-                timing={"1ч 42м"}
-              />
-              <MoviesCard
-                image={wordsPath}
-                title={"33 слова о дизайне"}
-                timing={"1ч 47м"}
-              />
-              <MoviesCard
-                image={hundredYearsPath}
-                title={"Киноальманах «100 лет дизайна»"}
-                timing={"1ч 3м"}
-              />
-              <MoviesCard
-                image={banksyPath}
-                title={"В погоне за Бенкси"}
-                timing={"1ч 42м"}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-        </MoviesCardList>
+        <SearchForm
+          onSearch={onSearch}
+          keyWordLast={keyWordLast}
+          isShortFilmLast={isShortFilmLast}
+        />
+        <MoviesCardList
+          isErrorMovies={isErrorMovies}
+          isLoadingMovies={isLoadingMovies}
+          isButtonActive={isButtonActive}
+          handleClick={handleMoreClick}
+          handleMovie={handleMovieSave}
+          noResult={noResult}
+          movies={moviesArr}
+        ></MoviesCardList>
       </main>
       <Footer />
     </>

@@ -4,14 +4,14 @@ import { Link} from "react-router-dom";
 import React from "react";
 import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
 
-function Header({setIsMenuOpened}) {
+function Header({setIsMenuOpened, loggedIn}) {
 
   return (
     <header className="header">
       <Link to="/" className="header__link-to-main">
         <img className="header__logo" src={logoPath} alt="Логотип Movies-Explorer" />
       </Link>
-      <HeaderNavigation setIsMenuOpened={setIsMenuOpened}/>
+      <HeaderNavigation setIsMenuOpened={setIsMenuOpened} loggedIn={loggedIn}/>
     </header>
   );
 }

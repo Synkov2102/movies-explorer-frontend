@@ -5,7 +5,7 @@ function Menu({isOpened, setIsOpened}) {
   const path = useHistory().location.pathname;
 
   return (
-    <header className={ isOpened ? 'menu menu_opened' : 'menu'}>
+    <section className={ isOpened ? 'menu menu_opened' : 'menu'}>
       <nav className={ isOpened ? 'menu-navigation menu-navigation_opened' : 'menu-navigation'}>
         <button className="menu-navigation__exit" onClick={()=>setIsOpened(false)}>
           <img className="menu-navigation__exit-icon" src={exitPath} alt="Изображение кнопки выйти"/>
@@ -44,7 +44,7 @@ function Menu({isOpened, setIsOpened}) {
           <button className="menu-navigation__account">Аккаунт</button>
         </Link>
       </nav>
-    </header>
+    </section>
   );
 }
 

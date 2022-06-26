@@ -7,10 +7,10 @@ import Footer from "../Footer/Footer";
 import Tech from "../Tech/Tech";
 import "./Main.css";
 
-function Main() {
+function Main({loggedIn}) {
   return (
     <>
-      <Header />
+      <Header loggedIn={loggedIn} />
       <main className="main">
         <Promo />
         <NavTab />

@@ -2,61 +2,84 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import logoPath from "../../images/logo.svg";
+import { useForm } from "react-hook-form";
+import Notification from "../Notification/Notification";
 
-function Register({ email, password, name, setEmail, setPassword, onSubmit }) {
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
+function Register({ onRegister, notification, setNotification }) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+  });
 
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
+  const onSubmit = (data) => {
+    onRegister(data.email, data.password, data.name);
+    reset();
+  };
 
   return (
     <>
       <main className="login">
-        <img className="login__logo" src={logoPath} alt="Логотип Movies-Explorer"/>
+        <Link to="/">
+          <img
+            className="login__logo"
+            src={logoPath}
+            alt="Логотип Movies-Explorer"
+          />
+        </Link>
         <h2 className="login__title">Добро пожаловать!</h2>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="login__inputs login__inputs_theme_reg">
             <label className="login__input-label">Имя</label>
             <input
-              id="name-input"
-              required
-              type="text"
-              className="login__input"
-              minLength="2"
-              maxLength="200"
-              value={name || ""}
-              onChange={handlePasswordChange}
+              className={
+                errors.name ? "login__input login__input_err" : "login__input"
+              }
+              {...register("name", {
+                required: "Имя должно быть заполнено",
+                pattern: {
+                  value: /^[a-z-А-Яа-я\s?]+$/i,
+                  message: "Имя введено не верно",
+                },
+              })}
             />
-            <span id="password-err" className="login__err"></span>
+            <span className="login__err">{errors?.name?.message}</span>
+
             <label className="login__input-label">E-mail</label>
             <input
-              id="email-input"
-              required
-              type="email"
-              className="login__input"
-              minLength="2"
-              maxLength="40"
-              value={email || ""}
-              onChange={handleEmailChange}
+              className={
+                errors.email ? "login__input login__input_err" : "login__input"
+              }
+              {...register("email", {
+                required: "Почта должна быть заполнена",
+                pattern: {
+                  value: /\b([a-z0-9._-]+@[a-z0-9.-]+\.[a-z]+)\b/i,
+                  message: "Почта введена не верно",
+                },
+              })}
             />
-            <span id="email-err" className="login__err"></span>
+            <span className="login__err">{errors?.email?.message}</span>
+
             <label className="login__input-label">Пароль</label>
             <input
-              id="password-input"
-              required
+              className={
+                errors.password
+                  ? "login__input login__input_err"
+                  : "login__input"
+              }
               type="password"
-              className="login__input"
-              minLength="2"
-              maxLength="200"
-              value={password || ""}
-              onChange={handlePasswordChange}
+              {...register("password", {
+                required: "Пароль должен быть заполнен",
+              })}
             />
-            <span id="password-err" className="login__err"></span>
+            <span className="login__err">{errors?.password?.message}</span>
           </fieldset>
-          <button className="login__button">Зарегистрироваться</button>
+          <button type="submit" disabled={!isValid} className="login__button">
+            Зарегистрироваться
+          </button>
           <div className="login__reg-container">
             <p className="login__reg-question">Уже зарегистрированы?</p>
             <Link to="./signin" className="login__reg-link">
@@ -64,6 +87,7 @@ function Register({ email, password, name, setEmail, setPassword, onSubmit }) {
             </Link>
           </div>
         </form>
+        <Notification notification={notification} setNotification={setNotification}/>
       </main>
     </>
   );

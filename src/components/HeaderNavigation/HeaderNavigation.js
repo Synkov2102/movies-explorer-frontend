@@ -4,11 +4,11 @@ import "./HeaderNavigation.css";
 
 import burgerPath from "../../images/burger.svg";
 
-function HeaderNavigation({ setIsMenuOpened }) {
+function HeaderNavigation({ setIsMenuOpened, loggedIn }) {
   const screenWidth = window.screen.width;
   const path = useHistory().location.pathname;
 
-  if (path === "/") {
+  if (path === "/" & !loggedIn) {
     //Создаем навигацию для главной страницы
     return (
       <nav className="header-navigation">

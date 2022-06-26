@@ -36,6 +36,17 @@
   border: none;
 }
 
+.movies-list__error {
+  width: 297px;
+  margin: 0 auto 0 auto;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.29;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .movies-list {
     padding: 0 30px;
