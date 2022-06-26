@@ -21,7 +21,6 @@ function Profile({ onUpdate, setLoggedIn, notification, setNotification }) {
   }, [currentUser]);
 
   function handleSubmit(e) {
-    console.log("редактировано");
     e.preventDefault();
     onUpdate(userName, userEmail);
   }

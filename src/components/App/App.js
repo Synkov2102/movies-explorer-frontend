@@ -6,7 +6,7 @@ import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import NotFound from "../NotFound/NotFound";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import { Route, useHistory, Switch } from "react-router-dom";
+import { Route, useHistory, useLocation, Switch } from "react-router-dom";
 
 import api from "../../utils/MainApi";
 import movies from "../../utils/MoviesApi";
@@ -21,6 +21,7 @@ import { shortFilmDuration } from "../../constants/constants";
 
 function App() {
   const history = useHistory();
+  const location = useLocation();
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [moviesData, setMoviesData] = React.useState([]);
@@ -46,8 +47,12 @@ function App() {
     getFilms();
     getSavedfilms();
     tokenCheck();
-    setMoviesData([])
+    setMoviesData([]);
   }, [loggedIn]);
+
+  React.useEffect(() => {
+    setSavedMoviesData([]);
+  }, [location]);
 
   function tokenCheck() {
     // если у пользователя есть токен в localStorage,
@@ -114,14 +119,12 @@ function App() {
   function handleSearchSavedMovies(keyWord, isShortFilm) {
     const movies = JSON.parse(localStorage.getItem("savedFilms"));
     const findedFilms = filterMovies(movies, keyWord, isShortFilm);
-    console.log(findedFilms)
-    if(findedFilms.length !=0){
+    if (findedFilms.length != 0) {
       setSavedMoviesData(findedFilms);
-      setNoResultSvdMvs(false)
+      setNoResultSvdMvs(false);
     } else {
-      setNoResultSvdMvs(true)
+      setNoResultSvdMvs(true);
     }
-    
   }
 
   function getFilms() {
@@ -144,9 +147,9 @@ function App() {
       localStorage.setItem("findedFilms", JSON.stringify(findedFilms));
       localStorage.setItem("keyWord", keyWord);
       localStorage.setItem("isShortFilm", JSON.stringify(isShortFilm));
-      setNoResultMvs(false)
+      setNoResultMvs(false);
     } else {
-      setNoResultMvs(true)
+      setNoResultMvs(true);
       setMoviesData([]);
     }
   }
@@ -273,6 +276,7 @@ function App() {
           onSearch={handleSearchSavedMovies}
           handleDeleteMovie={handleDeleteMovie}
           noResult={noResultSvdMvs}
+          getSavedfilms={getSavedfilms}
         />
 
         <ProtectedRoute

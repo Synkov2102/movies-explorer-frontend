@@ -7,6 +7,8 @@ import "./SavedMovies.css";
 
 import { useState } from "react";
 
+import React from "react";
+
 function SavedMovies({ handleDeleteMovie, onSearch, savedMovies, noResult }) {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
@@ -22,7 +24,11 @@ function SavedMovies({ handleDeleteMovie, onSearch, savedMovies, noResult }) {
       <Menu isOpened={isMenuOpened} setIsOpened={setIsMenuOpened} />
       <main>
         <SearchForm onSearch={onSearch} />
-        <MoviesCardList movies={savedMovies} handleMovie={handleDeleteMovie} noResult={noResult}/>
+        <MoviesCardList
+          movies={savedMovies}
+          handleMovie={handleDeleteMovie}
+          noResult={noResult}
+        />
       </main>
       <Footer />
     </>
