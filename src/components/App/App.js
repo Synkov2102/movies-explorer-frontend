@@ -46,7 +46,7 @@ function App() {
     getFilms();
     getSavedfilms();
     tokenCheck();
-    setSavedMoviesData([])
+    setMoviesData([])
   }, [loggedIn]);
 
   function tokenCheck() {
