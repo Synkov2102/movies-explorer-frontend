@@ -8,28 +8,34 @@ import "./Movies.css";
 import { useState } from "react";
 import React from "react";
 
+import { bigSizeTable, mediumSizeTable, smallSizeTable } from "../../constants/constants";
+
 function Movies({
   onSearch,
+  noResult,
   movies,
   isLoadingMovies,
   isErrorMovies,
   handleMovieSave,
 }) {
+
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const keyWordLast = localStorage.getItem("keyWord");
   const isShortFilmLast = JSON.parse(localStorage.getItem("isShortFilm"));
 
   const [sizeCoefficient, setSizeCoefficient] = useState(12);
   const [additionCounter, setAdditionCounter] = useState(0);
+  const [moviesArr, setMoviesArr] = useState([]);
+
   let isButtonActive = true;
 
   function handleResize() {
     if (window.innerWidth > 1005) {
-      setSizeCoefficient(12);
+      setSizeCoefficient(bigSizeTable);
     } else if (window.innerWidth > 710) {
-      setSizeCoefficient(8);
+      setSizeCoefficient(mediumSizeTable);
     } else {
-      setSizeCoefficient(5);
+      setSizeCoefficient(smallSizeTable);
     }
   }
 
@@ -39,30 +45,24 @@ function Movies({
 
   React.useEffect(() => {
     window.addEventListener("resize", handleResize);
-  }, []);
+  }, [window.innerWidth]);
 
-  if (movies === undefined) {
+  React.useEffect(() => {
+    setMoviesArr(
+      movies.slice(0, sizeCoefficient + sizeCoefficient * additionCounter)
+    );
+  }, [sizeCoefficient, additionCounter, movies]);
+
+  if (movies.length === 0) {
     if (JSON.parse(localStorage.getItem("findedFilms"))) {
       movies = JSON.parse(localStorage.getItem("findedFilms"));
     } else {
       isButtonActive = false;
     }
-  } else {
-    if (movies.length === 0) {
-      if (JSON.parse(localStorage.getItem("findedFilms"))) {
-        movies = JSON.parse(localStorage.getItem("findedFilms"));
-      }
-    }
   }
 
-  if (movies != undefined) {
-    if (movies.length <= sizeCoefficient + sizeCoefficient * additionCounter) {
-      isButtonActive = false;
-    }
-
-    if (movies.length > sizeCoefficient) {
-      movies.length = sizeCoefficient + sizeCoefficient * additionCounter;
-    }
+  if (moviesArr.length === movies.length || noResult === true) {
+    isButtonActive = false;
   }
 
   return (
@@ -81,7 +81,8 @@ function Movies({
           isButtonActive={isButtonActive}
           handleClick={handleMoreClick}
           handleMovie={handleMovieSave}
-          movies={movies}
+          noResult={noResult}
+          movies={moviesArr}
         ></MoviesCardList>
       </main>
       <Footer />

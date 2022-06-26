@@ -5,9 +5,8 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import NotFound from "../NotFound/NotFound";
-import Notification from "../Notification/Notification";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import { Route, useLocation, useHistory, Switch } from "react-router-dom";
+import { Route, useHistory, Switch } from "react-router-dom";
 
 import api from "../../utils/MainApi";
 import movies from "../../utils/MoviesApi";
@@ -18,14 +17,17 @@ import React from "react";
 import "./App.css";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { shortFilmDuration } from "../../constants/constants";
 
 function App() {
   const history = useHistory();
 
   const [currentUser, setCurrentUser] = React.useState({});
-  const [moviesData, setMoviesData] = React.useState();
-  const [savedMoviesData, setSavedMoviesData] = React.useState();
+  const [moviesData, setMoviesData] = React.useState([]);
+  const [savedMoviesData, setSavedMoviesData] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(true);
+  const [noResultMvs, setNoResultMvs] = React.useState(false);
+  const [noResultSvdMvs, setNoResultSvdMvs] = React.useState(false);
   const [isLoadingMovies, setIsLoadingMovies] = React.useState(false);
   const [isErrorMovies, setIsErrorMovies] = React.useState(false);
   const [notification, setNotification] = React.useState("");
@@ -41,9 +43,11 @@ function App() {
           console.log(err);
         });
     }
+    getFilms();
     getSavedfilms();
     tokenCheck();
-  }, []);
+    setSavedMoviesData([])
+  }, [loggedIn]);
 
   function tokenCheck() {
     // если у пользователя есть токен в localStorage,
@@ -80,7 +84,7 @@ function App() {
         });
       })
       .catch(() => {
-        setNotification('При входе что-то пошло не так')
+        setNotification("При входе что-то пошло не так");
       });
   }
 
@@ -90,8 +94,8 @@ function App() {
       .then(() => {
         handleLogin(email, password);
       })
-      .catch((err) => {
-        setNotification('При регистрации что-то пошло не так')
+      .catch(() => {
+        setNotification("При регистрации что-то пошло не так");
       });
   }
 
@@ -100,39 +104,51 @@ function App() {
       .patchProfileInfo(name, email)
       .then((data) => {
         setCurrentUser(data.user);
-        setNotification('Данные пользователя успешно изменены')
+        setNotification("Данные пользователя успешно изменены");
       })
       .catch(() => {
-        setNotification('Не удалось изменить данные пользователя')
+        setNotification("Не удалось изменить данные пользователя");
       });
   }
 
   function handleSearchSavedMovies(keyWord, isShortFilm) {
     const movies = JSON.parse(localStorage.getItem("savedFilms"));
-    setSavedMoviesData(filterMovies(movies, keyWord, isShortFilm));
+    const findedFilms = filterMovies(movies, keyWord, isShortFilm);
+    console.log(findedFilms)
+    if(findedFilms.length !=0){
+      setSavedMoviesData(findedFilms);
+      setNoResultSvdMvs(false)
+    } else {
+      setNoResultSvdMvs(true)
+    }
+    
   }
 
-  function handleSearchMovies(key, isShortFilm) {
-    setIsLoadingMovies(true);
+  function getFilms() {
     movies
       .getMovies()
       .then((data) => {
-        setIsLoadingMovies(false);
-        const findedFilms = filterMovies(data, key, isShortFilm);
-
-        if (findedFilms.length != 0) {
-          setMoviesData(findedFilms);
-          localStorage.setItem("findedFilms", JSON.stringify(findedFilms));
-          localStorage.setItem("keyWord", key);
-          localStorage.setItem("isShortFilm", JSON.stringify(isShortFilm));
-        } else {
-          setMoviesData([]);
-        }
+        localStorage.setItem("films", JSON.stringify(data));
       })
       .catch(() => {
-        setIsLoadingMovies(false);
         setIsErrorMovies(true);
       });
+  }
+
+  function handleSearchMovies(keyWord, isShortFilm) {
+    const movies = JSON.parse(localStorage.getItem("films"));
+    const findedFilms = filterMovies(movies, keyWord, isShortFilm);
+
+    if (findedFilms.length != 0) {
+      setMoviesData(findedFilms);
+      localStorage.setItem("findedFilms", JSON.stringify(findedFilms));
+      localStorage.setItem("keyWord", keyWord);
+      localStorage.setItem("isShortFilm", JSON.stringify(isShortFilm));
+      setNoResultMvs(false)
+    } else {
+      setNoResultMvs(true)
+      setMoviesData([]);
+    }
   }
 
   function getSavedfilms() {
@@ -222,7 +238,7 @@ function App() {
   function filterMovies(arr, keyWord, isShortFilm) {
     return arr.filter((item) => {
       for (let key in item) {
-        if (isShortFilm === item.duration <= 40) {
+        if (isShortFilm === item.duration <= shortFilmDuration) {
           if (typeof item[key] === "string") {
             const searchItem = item[key].toUpperCase();
             if (searchItem.indexOf(keyWord.toUpperCase()) != -1) {
@@ -246,6 +262,7 @@ function App() {
           isErrorMovies={isErrorMovies}
           movies={moviesData}
           handleMovieSave={handleMovieSave}
+          noResult={noResultMvs}
         />
 
         <ProtectedRoute
@@ -255,6 +272,7 @@ function App() {
           savedMovies={savedMoviesData}
           onSearch={handleSearchSavedMovies}
           handleDeleteMovie={handleDeleteMovie}
+          noResult={noResultSvdMvs}
         />
 
         <ProtectedRoute

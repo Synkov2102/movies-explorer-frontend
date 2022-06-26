@@ -12,7 +12,7 @@ function Register({ onRegister, notification, setNotification }) {
     reset,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const onSubmit = (data) => {

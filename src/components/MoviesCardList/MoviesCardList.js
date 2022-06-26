@@ -14,6 +14,7 @@ function MoviesCardList({
   isButtonActive,
   handleClick,
   handleMovie,
+  noResult,
   movies,
 }) {
   let path = useHistory().location.pathname;
@@ -49,9 +50,9 @@ function MoviesCardList({
             Во время запроса произошла ошибка. Возможно, проблема с соединением
             или сервер недоступен. Подождите немного и попробуйте ещё раз
           </p>
-        ) : isUndefined(moviesData) ? (
+        ) : movies.length === 0 ? (
           <></>
-        ) : moviesData.length === 0 ? (
+        ) : noResult ? (
           <p className="movies-list__error">Ничего не найдено</p>
         ) : (
           moviesData.map((movie) => {

@@ -8,6 +8,8 @@ function HeaderNavigation({ setIsMenuOpened, loggedIn }) {
   const screenWidth = window.screen.width;
   const path = useHistory().location.pathname;
 
+  console.log(screenWidth)
+
   if (path === "/" & !loggedIn) {
     //Создаем навигацию для главной страницы
     return (
